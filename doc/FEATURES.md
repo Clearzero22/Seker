@@ -28,41 +28,56 @@ The CLI will adopt a `program <command> [arguments]` structure.
 
 ### New Commands: CRUD Operations
 
+(Details for Create, Read, Update, Delete commands as previously defined)
+
 #### 1. **Create (增)**
 
 - **`create file <path>`**: Creates a new, empty file at the specified path.
-  - *Example*: `bun-glob create file ./src/new-component.ts`
 - **`create dir <path>`**: Creates a new directory.
-  - *Example*: `bun-glob create dir ./assets/images`
-  - **Option**: `-p, --parents`: Automatically create parent directories if they do not exist (similar to `mkdir -p`).
+  - **Option**: `-p, --parents`: Automatically create parent directories.
 
 #### 2. **Read / List (查)**
 
-- **`show <path>`**: Displays the contents of a specified file directly in the terminal.
-  - *Example*: `bun-glob show ./package.json`
+- **`show <path>`**: Displays the contents of a specified file.
 - **`ls <path>`**: Lists the contents of a specified directory.
-  - *Example*: `bun-glob ls ./src`
-  - This command will leverage the existing glob engine and can be enhanced with options from the search command (e.g., `--ignore`).
 
 #### 3. **Update / Move (改)**
 
 - **`move <source> <destination>`**: Moves or renames a file or directory.
-  - *Example (Rename)*: `bun-glob move ./old-name.txt ./new-name.txt`
-  - *Example (Move)*: `bun-glob move ./src/app.ts ./lib/app.ts`
 
 #### 4. **Delete (删)**
 
 - **`remove <path>`**: Deletes a specified file or an **empty** directory.
-  - *Example*: `bun-glob remove ./temp-file.tmp`
-- **Recursive Deletion (with safeguards)**:
-  - **Option**: `-r, --recursive`: Allows for the deletion of a directory and all of its contents.
-  - **Safeguard**: When using `-r`, the command will require an interactive confirmation from the user to prevent accidental data loss.
-  - **Option**: `-f, --force`: Can be used with `-r` to bypass the interactive confirmation.
+- **Option**: `-r, --recursive`: Allows for recursive deletion.
+- **Safeguard**: Requires interactive confirmation for recursive deletion.
+- **Option**: `-f, --force`: Bypasses the confirmation.
 
-### Implementation Plan for v2.0
+---
 
-1. **Refactor CLI Structure**: Modify `index.ts` to use `commander.js`'s subcommand system (`program.command(...)`) to handle the new commands (`create`, `show`, `move`, `remove`).
-2. **Implement File System Logic**: Utilize Bun's high-performance, built-in file system APIs (e.g., `Bun.write`, `import { mkdir, rename, rm } from "fs/promises"`) to power the new operations.
-3. **Add Interactive Prompts**: For destructive operations like `remove --recursive`, implement a user confirmation prompt to ensure safety.
-4. **Expand Test Suite**: Create new test files (e.g., `create.test.ts`, `remove.test.ts`) to provide full test coverage for all new commands and their options.
-5. **Update All Documentation**: Thoroughly update `README.md`, `Gemini.md`, and other relevant documents to reflect the new capabilities.
+## Version 3.0: Modern CLI Enhancements (Future)
+
+This phase focuses on improving user experience, automation, and extensibility to make the tool truly modern and powerful.
+
+### 🎨 Rich & Interactive Experience
+
+- **Colorized Output**: Automatically apply colors to output based on file type, directory, or status (e.g., errors in red, success in green). This dramatically improves readability.
+- **Progress Indicators**: For long-running operations (e.g., large recursive deletes or searches), display a spinner or progress bar to give the user feedback that the application is working.
+- **Interactive Selection**: For search results, provide an interactive mode (`-i, --interactive`) that presents a checklist or selectable list, allowing the user to choose which files to apply a subsequent action to (e.g., select files to delete).
+
+### ⚙️ Advanced Operations & Watch Mode
+
+- **Watch Mode**: Introduce a `--watch` flag for search and `ls` commands. The command will remain active and re-run automatically whenever files change in the target directory, making it a powerful tool for development.
+- **Content Search (`grep`-like)**: Add a new command `search content <text> [glob]` that searches for a specific string or regex *inside* the files found by a glob pattern.
+- **Execute Command on Results (`xargs`-like)**: Add an `--exec <command>` flag to the search command. For each file found, it will execute the provided shell command, replacing a placeholder (e.g., `{}`) with the file path.
+  - *Example*: `bun-glob "*.ts" --exec "bun format {}"` would format every found TypeScript file.
+
+### 🔧 Configuration & Customization
+
+- **Configuration Files**: Allow users to set default preferences (e.g., always ignore `node_modules`, default to absolute paths) in a `.bun-glob-rc` file at the project root or in a global config file (`~/.config/bun-glob/config.json`).
+- **`config` Command**: Add a `config <action> [key] [value]` command to allow users to manage these settings directly from the CLI.
+
+### 🔌 Extensibility & Scripting
+
+- **JSON Output**: Add a `--json` flag to all commands that produce listable output. This makes the tool's output machine-readable and easily pipeable to other tools like `jq`.
+- **Plugin System (Ambitious)**: In a future state, design a simple plugin system where users can write their own commands or hooks in TypeScript, which the CLI can discover and load.
+
