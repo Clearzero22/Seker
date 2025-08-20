@@ -1,0 +1,24 @@
+// Bun Snapshot v1, https://bun.sh/docs/test/snapshots
+
+exports[`bun-glob CLI should show help message for --help flag 1`] = `
+"Usage: bun-glob [options] <pattern>
+
+A high-performance file searching CLI powered by Bun and node-glob. Supports
+Windows, Linux, and macOS.
+
+Arguments:
+  pattern                     The glob pattern to match files against (e.g.,
+                              "src/**/*.ts").
+
+Options:
+  -V, --version               output the version number
+  -i, --ignore <patterns...>  Glob patterns to ignore. Can be specified multiple
+                              times.
+  -d, --cwd <directory>       The directory to start searching from. (default:
+                              "E:\\\\code_devellopment\\\\00001_my_project\\\\bun_project")
+  --dot                       Include files and directories starting with a dot
+                              (e.g., .gitignore). (default: false)
+  --absolute                  Return absolute paths. (default: false)
+  -h, --help                  display help for command
+"
+`;
