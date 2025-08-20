@@ -10,7 +10,7 @@ This document serves as a central index for all documentation related to the `bu
 ## Architecture & Design
 
 * [Software Architecture](ARCHITECTURE.md) - Detailed design of the project's software architecture.
-* [Architecture Extensibility & Plugins](ARCHITECTURE_EXTENSIBILITY.md) - Discussion on making the architecture extensible and implementing plugin functionality.
+* [Architecture Extensibility & Plugins](ARCHITECTURE_EXTENSIBILITY.md) - Discussion on making the architecture extensible and implementing plugin functionality.
 * [Plugin Functionality Design](PLUGIN_FUNCTIONALITY_DESIGN.md) - Detailed design of plugin features and use cases.
 
 ## Development Guides
